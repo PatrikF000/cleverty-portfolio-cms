@@ -1,0 +1,116 @@
+//@import '@/css/globals.css';
+
+:root {
+  --color-orange: #f65009;
+  --color-beige: #ded1be;
+  --color-black: #000;
+  --color-white: #fff;
+  --app-header-height: calc(calc((20 / 13) * 1rem) * 4);
+  //#DED1BE - beige
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-orange: #f65009;
+    --color-beige: #ded1be;
+    --color-black: #000;
+    --color-white: #fff;
+  }
+}
+
+.template-default {
+  color: var(--color-white) !important;
+  min-height: calc(100vh - 44px);
+}
+
+.template-default__wrap {
+  background-color: var(--color-black);
+  border-radius: 16px;
+}
+
+.template-default {
+  padding: 16px;
+}
+
+.app-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.graphic-icon {
+  color: var(--color-white) !important;
+
+  path {
+    fill: var(--color-white) !important;
+  }
+}
+
+/* lang dropdown */
+
+.popup-button-list {
+  color: var(--color-white);
+}
+
+/* sidebar icon open */
+
+.template-default__nav-toggler-wrapper {
+  top: 16px;
+  left: 16px;
+  position: relative !important;
+}
+
+/* home button breadcrumb */
+.step-nav__home {
+  width: 64px !important;
+  height: 20px !important;
+}
+
+.btn--withoutPopup {
+  padding: 6px 12px;
+  border-radius: 8px;
+  //background-color: var(--color-orange);
+  //color: var(--color-white);
+  font-size: 12px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.button {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  background-color: var(--color-beige);
+  color: var(--color-orange);
+  font-size: 14px;
+
+  &.btn--size-small {
+    padding: 2px 8px;
+  }
+
+  &.btn--size-large {
+    padding: 16px 24px;
+  }
+}
+
+.customInput {
+  box-shadow: 0 2px 2px -1px #0000001a;
+  font-family: var(--font-body);
+  width: 100%;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-s);
+  background: var(--theme-input-bg);
+  color: var(--theme-elevation-800);
+  font-size: 1rem;
+  height: 40px;
+  line-height: 20px;
+  padding: 8px 15px;
+  -webkit-appearance: none;
+  transition-property: border, box-shadow, background-color;
+  transition-duration: 0.1s, 0.1s, 0.5s;
+  transition-timing-function: cubic-bezier(0, 0.2, 0.2, 1);
+}

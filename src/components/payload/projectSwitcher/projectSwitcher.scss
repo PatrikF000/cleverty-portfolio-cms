@@ -1,0 +1,28 @@
+.projectSwitcher {
+     display: block;
+     margin-bottom: 64px;
+
+     h3 {
+          display: block;
+     }
+
+     &__flexheadline {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+     }
+
+     &__select {
+          color: var(--color-white) !important;
+
+          .value-container .rs__value-container>* {
+               color: var(--color-white) !important;
+          }
+
+          .react-select .rs__control {
+               color: var(--color-white) !important;
+          }
+     }
+}

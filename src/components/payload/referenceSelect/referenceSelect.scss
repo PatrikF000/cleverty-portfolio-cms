@@ -1,0 +1,42 @@
+.referenceSelect {
+     display: flex;
+     flex-wrap: nowrap;
+     align-items: center;
+     gap: 16px;
+
+     &__select,
+     &__input {
+          width: 256px;
+          display: block;
+     }
+
+     &__menuSelect {
+          display: block;
+          position: relative;
+          max-height: 300px;
+          overflow-y: auto;
+     }
+
+     &__selectBox {
+          display: block;
+          position: relative;
+     }
+
+     &__menuSelect {
+          position: absolute;
+          display: block;
+          width: 100%;
+          top: calc(100% + 8px);
+          left: 0px;
+          background-color: #000;
+          padding: 8px;
+          border-radius: 8px;
+
+          &--item {
+               display: block;
+               cursor: pointer;
+               padding: 4px;
+               font-size: 14px;
+          }
+     }
+}

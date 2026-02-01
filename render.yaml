@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: payload-cms
+    env: node
+    plan: starter
+    nodeVersion: 20.9.0
+    buildCommand: pnpm run render-build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CRON_SECURITY_TOKEN
+        generateValue: true
+      - key: PAYLOAD_SECRET
+        value: 415b10c649b5bee880ea939f
+      - key: DATABASE_URI
+        value: postgresql://postgres.xjpiowburbwbasrkwrpm:FUpvg9RqKrQ7QiR2@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
+      - key: NEXT_PUBLIC_PAYLOAD_URL
+        value: https://stoone-cms.onrender.com
+      - key: TEST_URL
+        value: https://stoone-cms.onrender.com
+      - key: REALPAD_API_URL
+        value: https://cms.realpad.eu
+    healthCheckPath: /
+    autoDeploy: true
+    branch: main
+    numInstances: 1

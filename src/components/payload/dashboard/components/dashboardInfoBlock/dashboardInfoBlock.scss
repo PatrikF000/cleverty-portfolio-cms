@@ -1,0 +1,48 @@
+.dashboardBlock {
+     display: flex;
+     flex-direction: column;
+     flex-wrap: nowrap;
+     align-items: start;
+     padding: 16px;
+     border-radius: 8px;
+     border: 1px solid var(--color-beige);
+     background-color: rgba(222, 209, 190, 0.5);
+     text-decoration: none;
+     transition: all 0.3s ease-in-out;
+
+     &:hover {
+          background-color: rgba(222, 209, 190, 0.7);
+     }
+
+     &__icon {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          width: 40px;
+          height: 40px;
+          background-color: rgba(246, 80, 9, 0.8);
+          border-radius: 8px;
+          margin-bottom: 16px;
+          color: var(--color-beige);
+
+          svg {
+               width: 20px;
+               height: 20px;
+          }
+     }
+
+     &__label {
+          font-size: 14px;
+          display: block;
+          margin-bottom: 12px;
+          color: rgba(222, 209, 190, 0.6);
+     }
+
+     &__count {
+          font-size: 20px;
+          text-transform: uppercase;
+          font-weight: bold;
+     }
+}
