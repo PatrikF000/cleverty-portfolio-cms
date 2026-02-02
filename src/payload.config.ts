@@ -1,8 +1,8 @@
 // storage-adapter-import-placeholder
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+// import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig, CORSConfig, CustomComponent } from 'payload'
+import { buildConfig, CORSConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -12,8 +12,8 @@ import { Media } from './collections/Media'
 import { en } from '@payloadcms/translations/languages/en'
 import { cs } from '@payloadcms/translations/languages/cs'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { s3Storage } from '@payloadcms/storage-s3'
-import { seoPlugin } from '@payloadcms/plugin-seo'
+// import { s3Storage } from '@payloadcms/storage-s3'
+// import { seoPlugin } from '@payloadcms/plugin-seo'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -32,7 +32,7 @@ import { migrations as POSTGRESMIG } from './migrations/postgres'
 //import { migrations as SQLITEMIG } from './migrations/sqlite'
 import { Roles } from './collections/Roles'
 
-import { resendAdapter } from '@payloadcms/email-resend'
+// import { resendAdapter } from '@payloadcms/email-resend'
 import { seedAdminUser } from './scripts/seedAdmin'
 import { Investments } from './collections/Investments'
 import { InvestmentCompanies } from './collections/InvestmentCompanies'
@@ -93,6 +93,7 @@ export default buildConfig({
     origins: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'https://cleverty-portfolio-cms.onrender.com',
       // 'https://dev-stoone.artstay.co',
       // 'https://stoone.artstay.co',
       process.env.NEXT_PUBLIC_PAYLOAD_URL || '',
@@ -104,14 +105,13 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
-      ssl: isProduction ? { rejectUnauthorized: false } : false,
-  //     ssl:
-  //     isProduction && process.env.RENDER === 'true'
-  //       ? {
-  //           rejectUnauthorized: false,
-  //         }
-  //       : false,
-  // },
+      // Always use SSL for cloud databases (supabase, neon, render, etc.)
+      ssl: process.env.DATABASE_URI?.includes('.supabase.') ||
+           process.env.DATABASE_URI?.includes('.neon.') ||
+           process.env.DATABASE_URI?.includes('render.com') ||
+           process.env.NODE_ENV === 'production'
+        ? { rejectUnauthorized: false }
+        : false,
     },
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace
@@ -155,28 +155,15 @@ export default buildConfig({
             localesSuffix: 'stoone',
             prodMigrations: POSTGRESMIG,
           })*/
-    collections: [
-      FundAdministrators,
-      InvestmentCompanies,
-      Investments,
-      Roles,
-      Users,
-      Media,
-      Portfolios,
-    ],
-    // Documents,`
-    // Share,
-    // Projects,
-    // Pages,
-    // Headers,
-    // Footers,
-    // Buildings,
-    // Floors,
-    // Flats,
-    // ProjectGlobalSettings,
-    // FlatDetailPage,
-    // NewsDetailPage,
-    // News,
+  collections: [
+    FundAdministrators,
+    InvestmentCompanies,
+    Investments,
+    Roles,
+    Users,
+    Media,
+    Portfolios,
+  ],
   i18n: {
     fallbackLanguage: 'cs', // default
     supportedLanguages: { cs, en },
@@ -265,211 +252,70 @@ export default buildConfig({
   //         }),*/
   //       ] as Plugin[]),
   plugins: [
-    seoPlugin({
-      tabbedUI: true,
-      collections: [
-        'news',
-        'pages',
-        'flatDetailPage',
-        'newsDetailPage',
-        'projectGlobalSettings',
-        'flats',
-      ],
-      fields: ({ defaultFields }) => [
-        ...defaultFields,
-        {
-          name: 'keywords',
-          type: 'text',
-          localized: true,
-          admin: {
-            description: 'Klíčová slova oddělená čárkami (méně důležité pro moderní SEO)',
-          },
-        },
-        {
-          name: 'ogTitle',
-          label: 'Open Graph Title',
-          type: 'text',
-          localized: true,
-          admin: {
-            description:
-              'Název pro sociální sítě (Facebook, Twitter) - pokud není vyplněno, použije se Meta Title',
-          },
-        },
-        {
-          name: 'ogDescription',
-          label: 'Open Graph Description',
-          type: 'textarea',
-          localized: true,
-          admin: {
-            description:
-              'Popis pro sociální sítě - pokud není vyplněno, použije se Meta Description',
-            rows: 3,
-          },
-        },
-        {
-          name: 'ogImage',
-          label: 'Open Graph Image',
-          type: 'upload',
-          relationTo: 'media',
-          admin: {
-            description: 'Obrázek pro sociální sítě (doporučeno 1200x630px)',
-          },
-        },
-        {
-          name: 'twitterCard',
-          label: 'Twitter Card Type',
-          type: 'select',
-          options: [
-            { label: 'Summary', value: 'summary' },
-            { label: 'Summary Large Image', value: 'summary_large_image' },
-            { label: 'App', value: 'app' },
-            { label: 'Player', value: 'player' },
-          ],
-          defaultValue: 'summary_large_image',
-          admin: {
-            description: 'Typ Twitter karty',
-          },
-        },
-        {
-          name: 'structuredData',
-          label: 'Structured Data (JSON-LD)',
-          type: 'textarea',
-          admin: {
-            description: 'JSON-LD strukturovaná data pro lepší indexování',
-            rows: 8,
-          },
-        },
-        // //Robots
-        // {
-        //   name: 'robots',
-        //   type: 'text',
-        // },
-        // //Canonical URL
-        // {
-        //   name: 'canonicalURL',
-        //   type: 'text',
-        // },
-      ],
-      // uploadsCollection: 'media',
-      generateTitle: ({ doc, collectionConfig }: any) => {
-        // Collection-specific description generation
-        switch (collectionConfig?.slug) {
-          case 'news':
-            return doc.title || ''
 
-          case 'pages':
-            return doc.slug || ''
+    // ...(isProduction || process.env.RENDER === 'true'
+    //   ? [
+    //       payloadCloudPlugin(),
+    //       /*uploadthingStorage({
+    //       collections: {
+    //         media: true,
+    //       },
+    //       options: {
+    //         token: process.env.UPLOADTHING_TOKEN || '',
+    //         acl: 'public-read',
+    //       },
+    //     }),*/
+    //       // storage-adapter-placeholder
+    //       /*cloudinaryStorage({
+    //       config: {
+    //         cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
+    //         api_key: process.env.CLOUDINARY_API_KEY || '',
+    //         api_secret: process.env.CLOUDINARY_API_SECRET || '',
+    //       },
+    //       collections: {
+    //         media: true, // Enable for media collection
+    //         // Add more collections as needed
+    //       },
+    //       folder: 'media', // Optional, defaults to 'payload-media'
+    //       disableLocalStorage: true, // Optional, defaults to true
+    //       enabled: true, // Optional, defaults to true
+    //     }),*/
 
-          case 'flatDetailPage':
-            return doc.title || ''
-
-          case 'flats':
-            return doc.title || ''
-
-          default:
-            return
-        }
-      },
-      generateDescription: ({ doc, collectionConfig }: any) => {
-        // Collection-specific description generation
-        switch (collectionConfig?.slug) {
-          case 'news':
-            return doc.perex || doc.title || 'News article from Stoone'
-
-          case 'pages':
-            return doc.slug || 'Page from Stoone website'
-
-          case 'flatDetailPage':
-            return doc.title || 'Flat detail page from Stoone'
-
-          case 'projectGlobalSettings':
-            return doc.title || 'Project settings from Stoone'
-
-          case 'flats':
-            // For flats, try to get content from gallery or use title
-            if (doc.gallery?.content) {
-              return doc.gallery.content
-            }
-            return doc.title || 'Flat listing from Stoone'
-
-          default:
-            return doc.title || 'Content from Stoone'
-        }
-      },
-      generateImage: ({ doc, collectionConfig }: any) => {
-        if (collectionConfig?.slug === 'news') {
-          return doc.coverImage
-        }
-        if (collectionConfig?.slug === 'flats') {
-          return doc.gallery?.content?.[0]?.image
-        }
-        return null
-      },
-    }),
-
-    ...(isProduction || process.env.RENDER === 'true'
-      ? [
-          payloadCloudPlugin(),
-          /*uploadthingStorage({
-          collections: {
-            media: true,
-          },
-          options: {
-            token: process.env.UPLOADTHING_TOKEN || '',
-            acl: 'public-read',
-          },
-        }),*/
-          // storage-adapter-placeholder
-          /*cloudinaryStorage({
-          config: {
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
-            api_key: process.env.CLOUDINARY_API_KEY || '',
-            api_secret: process.env.CLOUDINARY_API_SECRET || '',
-          },
-          collections: {
-            media: true, // Enable for media collection
-            // Add more collections as needed
-          },
-          folder: 'media', // Optional, defaults to 'payload-media'
-          disableLocalStorage: true, // Optional, defaults to true
-          enabled: true, // Optional, defaults to true
-        }),*/
-
-          s3Storage({
-            collections: {
-              media: true,
-              // documents: true,
-            },
-            bucket: process.env.S3_BUCKET || '',
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESSKEY || '',
-                secretAccessKey: process.env.S3_SECRETKEY || '',
-              },
-              region: 'auto',
-              endpoint: process.env.S3_ENDPOINT || '',
-            },
-            disableLocalStorage: true,
-            acl: 'public-read',
-          }),
-        ]
-      : [
-          payloadCloudPlugin(),
-          /*s3Storage({
-            collections: {
-              media: true,
-              documents: true,
-            },
-            bucket: process.env.S3_BUCKET || '',
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESSKEY || '',
-                secretAccessKey: process.env.S3_SECRETKEY || '',
-              },
-              region: 'auto',
-              endpoint: process.env.S3_ENDPOINT || '',
-            },
-          }),*/
-        ]),
+    //       s3Storage({
+    //         collections: {
+    //           media: true,
+    //           // documents: true,
+    //         },
+    //         bucket: process.env.S3_BUCKET || '',
+    //         config: {
+    //           credentials: {
+    //             accessKeyId: process.env.S3_ACCESSKEY || '',
+    //             secretAccessKey: process.env.S3_SECRETKEY || '',
+    //           },
+    //           region: 'auto',
+    //           endpoint: process.env.S3_ENDPOINT || '',
+    //         },
+    //         disableLocalStorage: true,
+    //         acl: 'public-read',
+    //       }),
+    //     ]
+    //   : [
+    //       payloadCloudPlugin(),
+    //       /*s3Storage({
+    //         collections: {
+    //           media: true,
+    //           documents: true,
+    //         },
+    //         bucket: process.env.S3_BUCKET || '',
+    //         config: {
+    //           credentials: {
+    //             accessKeyId: process.env.S3_ACCESSKEY || '',
+    //             secretAccessKey: process.env.S3_SECRETKEY || '',
+    //           },
+    //           region: 'auto',
+    //           endpoint: process.env.S3_ENDPOINT || '',
+    //         },
+    //       }),*/
+    //     ]),
   ],
 })
