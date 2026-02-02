@@ -104,12 +104,14 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
-      ssl:
-        isProduction && process.env.RENDER === 'true'
-          ? {
-              rejectUnauthorized: false,
-            }
-          : false,
+      ssl: isProduction ? { rejectUnauthorized: false } : false,
+  //     ssl:
+  //     isProduction && process.env.RENDER === 'true'
+  //       ? {
+  //           rejectUnauthorized: false,
+  //         }
+  //       : false,
+  // },
     },
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace
