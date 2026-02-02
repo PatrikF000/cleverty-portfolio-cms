@@ -105,13 +105,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
-      // Always use SSL for cloud databases (supabase, neon, render, etc.)
-      ssl: process.env.DATABASE_URI?.includes('.supabase.') ||
-           process.env.DATABASE_URI?.includes('.neon.') ||
-           process.env.DATABASE_URI?.includes('render.com') ||
-           process.env.NODE_ENV === 'production'
-        ? { rejectUnauthorized: false }
-        : false,
+      // Always use SSL with rejectUnauthorized: false for cloud databases
+      ssl: { rejectUnauthorized: false },
     },
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace

@@ -72,7 +72,8 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=3000
+# PORT will be set by Render (10000) - this is just a fallback
+ENV PORT=${PORT:-10000}
 
 RUN apt-get update && apt-get install -y curl && apt-get clean
 
@@ -92,7 +93,7 @@ RUN mkdir -p .next && chown -R nextjs:nodejs .next
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 10000
 
 # ✅ pokud používáš standalone build, Next.js vygeneruje server.js
 CMD ["node", "server.js"]
