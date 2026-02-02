@@ -1,6 +1,5 @@
 import { BasePayload, PayloadRequest, User } from 'payload'
 import './dashboard.scss'
-import ProjectSelector from '../projectSwitcher/ProjectSwitcher'
 import { cookies } from 'next/headers'
 import DashboardBlock from './components/dashboardInfoBlock/DashboardInfoBlock'
 

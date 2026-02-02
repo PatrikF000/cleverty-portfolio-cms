@@ -154,12 +154,12 @@ class JobQueue {
 
     try {
       // Import migration service dynamically to avoid circular dependencies
-      const { startMigrationJob } = await import('@/services/migrationJobService')
+      // const { startMigrationJob } = await import('@/services/migrationJobService')
 
       // Start the actual migration
-      await startMigrationJob(job, (progress) => {
-        this.updateJobProgress(jobId, progress)
-      })
+      // await startMigrationJob(job, (progress) => {
+      //   this.updateJobProgress(jobId, progress)
+      // })
 
       this.updateJobStatus(jobId, 'completed')
       this.updateJobProgress(jobId, {

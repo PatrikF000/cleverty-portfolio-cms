@@ -1,4 +1,4 @@
-import { authenticatedAdminField } from '@/access/field/authenticatedAdminField'
+// import { authenticatedAdminField } from '@/access/field/authenticatedAdminField'
 import { GroupField } from 'payload'
 
 export const CronJobSettings: GroupField = {
@@ -6,9 +6,9 @@ export const CronJobSettings: GroupField = {
   type: 'group',
   label: 'Automatická migrace (Cron Job)',
   access: {
-    create: authenticatedAdminField,
-    update: authenticatedAdminField,
-    read: authenticatedAdminField,
+    // create: authenticatedAdminField,
+    // update: authenticatedAdminField,
+    // read: authenticatedAdminField,
   },
   fields: [
     {

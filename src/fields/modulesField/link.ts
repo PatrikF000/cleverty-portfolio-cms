@@ -197,58 +197,6 @@ const link: LinkType = ({
       },
     },
     {
-      name: 'pageTo',
-      label: 'Page to link to',
-      type: 'relationship',
-      relationTo: ['pages'],
-      maxDepth: 1,
-      admin: {
-        condition: (_, siblingData) => {
-          if (!siblingData || typeof siblingData !== 'object') return false
-          return siblingData?.type === 'internal' && siblingData?.relation === 'pages'
-        },
-      },
-    },
-    {
-      name: 'flatTo',
-      label: 'Flat to link to',
-      type: 'relationship',
-      relationTo: ['flats'],
-      maxDepth: 1,
-      admin: {
-        condition: (_, siblingData) => {
-          if (!siblingData || typeof siblingData !== 'object') return false
-          return siblingData?.type === 'internal' && siblingData?.relation === 'flats'
-        },
-      },
-    },
-    {
-      name: 'newsTo',
-      label: 'News to link to',
-      type: 'relationship',
-      relationTo: ['news'],
-      maxDepth: 1,
-      admin: {
-        condition: (_, siblingData) => {
-          if (!siblingData || typeof siblingData !== 'object') return false
-          return siblingData?.type === 'internal' && siblingData?.relation === 'news'
-        },
-      },
-    },
-    {
-      name: 'documentTo',
-      label: 'Document to link to',
-      type: 'relationship',
-      relationTo: ['documents'],
-      maxDepth: 1,
-      admin: {
-        condition: (_, siblingData) => {
-          if (!siblingData || typeof siblingData !== 'object') return false
-          return siblingData?.type === 'internal' && siblingData?.relation === 'documents'
-        },
-      },
-    },
-    {
       name: 'url',
       label: 'Custom URL',
       type: 'text',

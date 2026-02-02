@@ -12,16 +12,10 @@ import { cookies } from 'next/headers'
 type Operation = 'create' | 'read' | 'update' | 'delete'
 type CollectionPermissionKey = keyof Role['permissions']
 export const hasPermission = (collection: string, operation: Operation): Access => {
-  return async ({ req }: AccessArgs<{ user: { role: Role }; payload: Headers }>) => {
-    const user = req.user
-    const userObject = user?.role as Role
-    if (userObject?.id === 1) return true
-
+  return async ({ req }: AccessArgs) => {
+    // Check API key first (works for any user type)
     const headersAny = req.headers as any
-    // Use the .get method for Headers objects, fallback to index signature for plain objects
     let apiKey: string | undefined
-
-    // Simple approach using any type
     if (headersAny?.get && typeof headersAny.get === 'function') {
       apiKey = headersAny.get('x-api-key') ?? undefined
     } else {
@@ -30,6 +24,12 @@ export const hasPermission = (collection: string, operation: Operation): Access 
     if (apiKey === process.env.CMS_API_TOKEN) {
       return true
     }
+
+    // Only users (not fundAdministrators) have role-based permissions
+    const user = req.user
+    if (!user || user.collection !== 'users') return false
+    const userObject = user.role as Role
+    if (userObject?.id === 1) return true
     //const reqCookies = req?.context?.cookie
     //console.log('test', reqCookies)
     const headersCookies = await cookies()
