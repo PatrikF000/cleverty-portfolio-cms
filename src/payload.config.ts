@@ -116,7 +116,7 @@ export default buildConfig({
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace
     disableCreateDatabase: true,
-    localesSuffix: 'stoone',
+    // localesSuffix: 'stoone',
     prodMigrations: POSTGRESMIG,
   }),
   /* isProduction || process.env.RENDER === 'true'

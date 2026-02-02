@@ -50,6 +50,9 @@ ENV NEXT_PUBLIC_PAYLOAD_URL=${NEXT_PUBLIC_PAYLOAD_URL}
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Set production environment for build
+ENV NODE_ENV=production
+
 # Generate Payload admin UI assets
 RUN npx payload generate:importmap
 RUN npx payload generate:types
