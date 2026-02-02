@@ -45,22 +45,22 @@ export const Users: CollectionConfig = {
         update: isAdminFieldLevel,
       },
     },
-    {
-      name: 'portfolios',
-      type: 'relationship',
-      relationTo: 'portfolios',
-      hasMany: true,
-      label: {
-        cs: 'Portfolia',
-        en: 'Portfolios',
-      },
-      admin: {
-        description: {
-          cs: 'Portfolia uživatele zaslaná z externí aplikace',
-          en: 'User portfolios sent from external application',
-        },
-      },
-    },
+    // {
+    //   name: 'portfolios',
+    //   type: 'relationship',
+    //   relationTo: 'portfolios',
+    //   hasMany: true,
+    //   label: {
+    //     cs: 'Portfolia',
+    //     en: 'Portfolios',
+    //   },
+    //   admin: {
+    //     description: {
+    //       cs: 'Portfolia uživatele zaslaná z externí aplikace',
+    //       en: 'User portfolios sent from external application',
+    //     },
+    //   },
+    // },
   ],
   timestamps: true,
 }

@@ -12,7 +12,8 @@ type isAuthenticated = (args: AccessArgs<User>) => boolean
  */
 
 export const authenticatedAdmin: isAuthenticated = ({ req: { user } }) => {
-  const userObject = user?.role as Role
+  if (!user || user.collection !== 'users') return false
+  const userObject = user.role as Role
   return userObject?.id === 1
 }
 

@@ -28,15 +28,6 @@ export const Roles: CollectionConfig = {
       type: 'group',
       fields: [
         {
-          name: 'investments',
-          type: 'select',
-          hasMany: true,
-          options: [
-            { label: 'Create', value: 'create' },
-            { label: 'Read', value: 'read' },
-          ],
-        },
-        {
           name: 'media',
           type: 'select',
           hasMany: true,
@@ -47,7 +38,51 @@ export const Roles: CollectionConfig = {
             { label: 'Delete', value: 'delete' },
           ],
         },
+        {
+          name: 'portfolios',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        },
+        {
+          name: 'fundAdministrators',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        },
+        {
+          name: 'investmentCompanies',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        },  
       
+        {
+          name: 'investments',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        }
         // {
         //   name: 'pages',
         //   type: 'select',

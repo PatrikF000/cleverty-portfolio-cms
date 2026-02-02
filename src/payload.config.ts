@@ -37,6 +37,7 @@ import { seedAdminUser } from './scripts/seedAdmin'
 import { Investments } from './collections/Investments'
 import { InvestmentCompanies } from './collections/InvestmentCompanies'
 import { Portfolios } from './collections/Portfolios'
+import { FundAdministrators } from './collections/FundAdministrators'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -153,6 +154,7 @@ export default buildConfig({
             prodMigrations: POSTGRESMIG,
           })*/
     collections: [
+      FundAdministrators,
       InvestmentCompanies,
       Investments,
       Roles,

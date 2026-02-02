@@ -63,10 +63,12 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
+    fundAdministrators: FundAdministratorAuthOperations;
     users: UserAuthOperations;
   };
   blocks: {};
   collections: {
+    fundAdministrators: FundAdministrator;
     investmentCompanies: InvestmentCompany;
     investments: Investment;
     roles: Role;
@@ -79,6 +81,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    fundAdministrators: FundAdministratorsSelect<false> | FundAdministratorsSelect<true>;
     investmentCompanies: InvestmentCompaniesSelect<false> | InvestmentCompaniesSelect<true>;
     investments: InvestmentsSelect<false> | InvestmentsSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
@@ -95,12 +98,34 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: 'en' | 'cs';
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (FundAdministrator & {
+        collection: 'fundAdministrators';
+      })
+    | (User & {
+        collection: 'users';
+      });
   jobs: {
     tasks: unknown;
     workflows: unknown;
+  };
+}
+export interface FundAdministratorAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
   };
 }
 export interface UserAuthOperations {
@@ -123,11 +148,60 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "investmentCompanies".
+ * via the `definition` "fundAdministrators".
  */
-export interface InvestmentCompany {
+export interface FundAdministrator {
+  id: number;
+  name?: string | null;
+  /**
+   * User portfolios sent from external application
+   */
+  portfolios?: (number | Portfolio)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolios".
+ */
+export interface Portfolio {
   id: number;
   name: string;
+  user: number | FundAdministrator;
+  /**
+   * List of investments in the portfolio with deposit amount for each investment
+   */
+  items?:
+    | {
+        investment: number | Investment;
+        /**
+         * Deposit amount for this investment
+         */
+        depositAmount: number;
+        currency: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Total investment (calculated automatically)
+   */
+  totalInvestment?: number | null;
+  /**
+   * Average return (calculated automatically)
+   */
+  averageReturn?: number | null;
+  /**
+   * Number of investments (calculated automatically)
+   */
+  investmentCount?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -206,14 +280,27 @@ export interface Investment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "investmentCompanies".
+ */
+export interface InvestmentCompany {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
  */
 export interface Role {
   id: number;
   name: string;
   permissions?: {
-    investments?: ('create' | 'read')[] | null;
     media?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    portfolios?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    fundAdministrators?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    investmentCompanies?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    investments?: ('create' | 'read' | 'update' | 'delete')[] | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -226,10 +313,6 @@ export interface User {
   id: number;
   name?: string | null;
   role: number | Role;
-  /**
-   * User portfolios sent from external application
-   */
-  portfolios?: (number | Portfolio)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -240,43 +323,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "portfolios".
- */
-export interface Portfolio {
-  id: number;
-  name: string;
-  user: number | User;
-  /**
-   * List of investments in the portfolio with deposit amount for each investment
-   */
-  items?:
-    | {
-        investment: number | Investment;
-        /**
-         * Deposit amount for this investment
-         */
-        depositAmount: number;
-        currency: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Total investment (calculated automatically)
-   */
-  totalInvestment?: number | null;
-  /**
-   * Average return (calculated automatically)
-   */
-  averageReturn?: number | null;
-  /**
-   * Number of investments (calculated automatically)
-   */
-  investmentCount?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -363,6 +409,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'fundAdministrators';
+        value: number | FundAdministrator;
+      } | null)
+    | ({
         relationTo: 'investmentCompanies';
         value: number | InvestmentCompany;
       } | null)
@@ -387,10 +437,15 @@ export interface PayloadLockedDocument {
         value: number | Portfolio;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'fundAdministrators';
+        value: number | FundAdministrator;
+      }
+    | {
+        relationTo: 'users';
+        value: number | User;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -400,10 +455,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'fundAdministrators';
+        value: number | FundAdministrator;
+      }
+    | {
+        relationTo: 'users';
+        value: number | User;
+      };
   key?: string | null;
   value?:
     | {
@@ -427,6 +487,23 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fundAdministrators_select".
+ */
+export interface FundAdministratorsSelect<T extends boolean = true> {
+  name?: T;
+  portfolios?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -467,8 +544,11 @@ export interface RolesSelect<T extends boolean = true> {
   permissions?:
     | T
     | {
-        investments?: T;
         media?: T;
+        portfolios?: T;
+        fundAdministrators?: T;
+        investmentCompanies?: T;
+        investments?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -480,7 +560,6 @@ export interface RolesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
-  portfolios?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

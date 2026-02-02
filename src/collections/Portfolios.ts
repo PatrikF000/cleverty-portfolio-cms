@@ -18,10 +18,14 @@ import {
       },
     },
     access: {
-      read: authenticatedAdminOrOwnPortfolio,
-      create: authenticatedAdminOrOwnPortfolioCreate, // Users can create their own portfolios
-      update: authenticatedAdminOrOwnPortfolioUpdate, // Users can update their own portfolios
-      delete: authenticatedAdminOrOwnPortfolioUpdate, // Users can delete their own portfolios
+      read: () => true,
+      create: () => true,
+      update: () => true,
+      delete: () => true,
+      // read: authenticatedAdminOrOwnPortfolio,
+      // create: authenticatedAdminOrOwnPortfolioCreate, // Users can create their own portfolios
+      // update: authenticatedAdminOrOwnPortfolioUpdate, // Users can update their own portfolios
+      // delete: authenticatedAdminOrOwnPortfolioUpdate, // Users can delete their own portfolios
     },
     admin: {
       useAsTitle: 'name',
@@ -40,19 +44,12 @@ import {
       {
         name: 'user',
         type: 'relationship',
-        relationTo: 'users',
+        relationTo: 'fundAdministrators',
         required: true,
         hasMany: false,
         label: {
-          cs: 'Uživatel',
-          en: 'User',
-        },
-        // Auto-set the user to the current user when creating via API
-        defaultValue: async ({ req }) => {
-          if (req.user) {
-            return req.user.id
-          }
-          return undefined
+          cs: 'Administrátor fondu',
+          en: 'Fund Administrator',
         },
       },
       {
