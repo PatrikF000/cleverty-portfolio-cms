@@ -96,4 +96,5 @@ USER nextjs
 EXPOSE 10000
 
 # ✅ pokud používáš standalone build, Next.js vygeneruje server.js
-CMD ["node", "server.js"]
+# --dns-result-order=ipv4first forces IPv4 (Render free tier doesn't support IPv6)
+CMD ["node", "--dns-result-order=ipv4first", "server.js"]
