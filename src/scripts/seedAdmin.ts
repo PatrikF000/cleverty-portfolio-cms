@@ -15,7 +15,10 @@ export const seedAdminUser = async (payload: Payload): Promise<void> => {
         data: {
           name: 'SuperAdmin',
           permissions: {
-            investments: ['create', 'read',],
+            investments: ['create', 'read', 'update', 'delete'],
+            investmentCompanies: ['create', 'read', 'update', 'delete'],
+            fundAdministrators: ['create', 'read', 'update', 'delete'],
+            portfolios: ['create', 'read', 'update', 'delete'],
             media: ['create', 'read', 'update', 'delete'],
           },
         },

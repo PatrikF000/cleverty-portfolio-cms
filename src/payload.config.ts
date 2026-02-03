@@ -1,6 +1,10 @@
 // storage-adapter-import-placeholder
 // import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+import dns from 'node:dns'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+
+// Force IPv4 for DNS resolution (Render free tier doesn't support IPv6 outbound)
+dns.setDefaultResultOrder('ipv4first')
 import path from 'path'
 import { buildConfig, CORSConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -150,15 +154,15 @@ export default buildConfig({
             localesSuffix: 'stoone',
             prodMigrations: POSTGRESMIG,
           })*/
-  collections: [
-    FundAdministrators,
-    InvestmentCompanies,
-    Investments,
-    Roles,
-    Users,
-    Media,
-    Portfolios,
-  ],
+    collections: [
+      FundAdministrators,
+      InvestmentCompanies,
+      Investments,
+      Roles,
+      Users,
+      Media,
+      Portfolios,
+    ],
   i18n: {
     fallbackLanguage: 'cs', // default
     supportedLanguages: { cs, en },
