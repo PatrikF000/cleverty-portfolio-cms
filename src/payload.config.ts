@@ -75,8 +75,10 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
-      // Always use SSL with rejectUnauthorized: false for cloud databases
-      ssl: { rejectUnauthorized: false },
+      // Use SSL only for remote/cloud databases, not for local development
+      ssl: process.env.DATABASE_URI?.includes('localhost') || process.env.DATABASE_URI?.includes('127.0.0.1')
+        ? false
+        : { rejectUnauthorized: false },
     },
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace

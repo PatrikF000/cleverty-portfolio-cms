@@ -24,7 +24,6 @@ import * as migration_20260130_074827 from './20260130_074827';
 import * as migration_20260130_075134 from './20260130_075134';
 import * as migration_20260130_093017 from './20260130_093017';
 import * as migration_20260130_103522 from './20260130_103522';
-import * as migration_20260201_172035 from './20260201_172035';
 import * as migration_20260201_174216 from './20260201_174216';
 import * as migration_20260201_175910 from './20260201_175910';
 import * as migration_20260201_180540 from './20260201_180540';
@@ -38,6 +37,39 @@ import * as migration_20260201_215258 from './20260201_215258';
 import * as migration_20260202_181849 from './20260202_181849';
 import * as migration_20260202_182256 from './20260202_182256';
 import * as migration_20260202_182506 from './20260202_182506';
+import * as migration_20260201_172035_part01 from './20260201_172035_part01';
+import * as migration_20260201_172035_part02 from './20260201_172035_part02';
+import * as migration_20260201_172035_part03 from './20260201_172035_part03';
+import * as migration_20260201_172035_part04 from './20260201_172035_part04';
+import * as migration_20260201_172035_part05 from './20260201_172035_part05';
+import * as migration_20260201_172035_part06 from './20260201_172035_part06';
+import * as migration_20260201_172035_part07 from './20260201_172035_part07';
+import * as migration_20260201_172035_part08 from './20260201_172035_part08';
+import * as migration_20260201_172035_part09 from './20260201_172035_part09';
+import * as migration_20260201_172035_part10 from './20260201_172035_part10';
+import * as migration_20260201_172035_part11 from './20260201_172035_part11';
+import * as migration_20260201_172035_part12 from './20260201_172035_part12';
+import * as migration_20260201_172035_part13 from './20260201_172035_part13';
+import * as migration_20260201_172035_part14 from './20260201_172035_part14';
+import * as migration_20260201_172035_part15 from './20260201_172035_part15';
+import * as migration_20260201_172035_part16 from './20260201_172035_part16';
+import * as migration_20260201_172035_part17 from './20260201_172035_part17';
+import * as migration_20260201_172035_part18 from './20260201_172035_part18';
+import * as migration_20260201_172035_part19 from './20260201_172035_part19';
+import * as migration_20260201_172035_part20 from './20260201_172035_part20';
+import * as migration_20260201_172035_part21 from './20260201_172035_part21';
+import * as migration_20260201_172035_part22 from './20260201_172035_part22';
+import * as migration_20260201_172035_part23 from './20260201_172035_part23';
+import * as migration_20260201_172035_part24 from './20260201_172035_part24';
+import * as migration_20260201_172035_part25 from './20260201_172035_part25';
+import * as migration_20260201_172035_part26 from './20260201_172035_part26';
+import * as migration_20260201_172035_part27 from './20260201_172035_part27';
+import * as migration_20260201_172035_part28 from './20260201_172035_part28';
+import * as migration_20260201_172035_part29 from './20260201_172035_part29';
+import * as migration_20260201_172035_part30 from './20260201_172035_part30';
+import * as migration_20260201_172035_part31 from './20260201_172035_part31';
+import * as migration_20260201_172035_part32 from './20260201_172035_part32';
+import * as migration_20260201_172035_part33 from './20260201_172035_part33';
 
 export const migrations = [
   {
@@ -171,9 +203,169 @@ export const migrations = [
     name: '20260130_103522',
   },
   {
-    up: migration_20260201_172035.up,
-    down: migration_20260201_172035.down,
-    name: '20260201_172035',
+    up: migration_20260201_172035_part01.up,
+    down: migration_20260201_172035_part01.down,
+    name: '20260201_172035_part01',
+  },
+  {
+    up: migration_20260201_172035_part02.up,
+    down: migration_20260201_172035_part02.down,
+    name: '20260201_172035_part02',
+  },
+  {
+    up: migration_20260201_172035_part03.up,
+    down: migration_20260201_172035_part03.down,
+    name: '20260201_172035_part03',
+  },
+  {
+    up: migration_20260201_172035_part04.up,
+    down: migration_20260201_172035_part04.down,
+    name: '20260201_172035_part04',
+  },
+  {
+    up: migration_20260201_172035_part05.up,
+    down: migration_20260201_172035_part05.down,
+    name: '20260201_172035_part05',
+  },
+  {
+    up: migration_20260201_172035_part06.up,
+    down: migration_20260201_172035_part06.down,
+    name: '20260201_172035_part06',
+  },
+  {
+    up: migration_20260201_172035_part07.up,
+    down: migration_20260201_172035_part07.down,
+    name: '20260201_172035_part07',
+  },
+  {
+    up: migration_20260201_172035_part08.up,
+    down: migration_20260201_172035_part08.down,
+    name: '20260201_172035_part08',
+  },
+  {
+    up: migration_20260201_172035_part09.up,
+    down: migration_20260201_172035_part09.down,
+    name: '20260201_172035_part09',
+  },
+  {
+    up: migration_20260201_172035_part10.up,
+    down: migration_20260201_172035_part10.down,
+    name: '20260201_172035_part10',
+  },
+  {
+    up: migration_20260201_172035_part11.up,
+    down: migration_20260201_172035_part11.down,
+    name: '20260201_172035_part11',
+  },
+  {
+    up: migration_20260201_172035_part12.up,
+    down: migration_20260201_172035_part12.down,
+    name: '20260201_172035_part12',
+  },
+  {
+    up: migration_20260201_172035_part13.up,
+    down: migration_20260201_172035_part13.down,
+    name: '20260201_172035_part13',
+  },
+  {
+    up: migration_20260201_172035_part14.up,
+    down: migration_20260201_172035_part14.down,
+    name: '20260201_172035_part14',
+  },
+  {
+    up: migration_20260201_172035_part15.up,
+    down: migration_20260201_172035_part15.down,
+    name: '20260201_172035_part15',
+  },
+  {
+    up: migration_20260201_172035_part16.up,
+    down: migration_20260201_172035_part16.down,
+    name: '20260201_172035_part16',
+  },
+  {
+    up: migration_20260201_172035_part17.up,
+    down: migration_20260201_172035_part17.down,
+    name: '20260201_172035_part17',
+  },
+  {
+    up: migration_20260201_172035_part18.up,
+    down: migration_20260201_172035_part18.down,
+    name: '20260201_172035_part18',
+  },
+  {
+    up: migration_20260201_172035_part19.up,
+    down: migration_20260201_172035_part19.down,
+    name: '20260201_172035_part19',
+  },
+  {
+    up: migration_20260201_172035_part20.up,
+    down: migration_20260201_172035_part20.down,
+    name: '20260201_172035_part20',
+  },
+  {
+    up: migration_20260201_172035_part21.up,
+    down: migration_20260201_172035_part21.down,
+    name: '20260201_172035_part21',
+  },
+  {
+    up: migration_20260201_172035_part22.up,
+    down: migration_20260201_172035_part22.down,
+    name: '20260201_172035_part22',
+  },
+  {
+    up: migration_20260201_172035_part23.up,
+    down: migration_20260201_172035_part23.down,
+    name: '20260201_172035_part23',
+  },
+  {
+    up: migration_20260201_172035_part24.up,
+    down: migration_20260201_172035_part24.down,
+    name: '20260201_172035_part24',
+  },
+  {
+    up: migration_20260201_172035_part25.up,
+    down: migration_20260201_172035_part25.down,
+    name: '20260201_172035_part25',
+  },
+  {
+    up: migration_20260201_172035_part26.up,
+    down: migration_20260201_172035_part26.down,
+    name: '20260201_172035_part26',
+  },
+  {
+    up: migration_20260201_172035_part27.up,
+    down: migration_20260201_172035_part27.down,
+    name: '20260201_172035_part27',
+  },
+  {
+    up: migration_20260201_172035_part28.up,
+    down: migration_20260201_172035_part28.down,
+    name: '20260201_172035_part28',
+  },
+  {
+    up: migration_20260201_172035_part29.up,
+    down: migration_20260201_172035_part29.down,
+    name: '20260201_172035_part29',
+  },
+  {
+    up: migration_20260201_172035_part30.up,
+    down: migration_20260201_172035_part30.down,
+    name: '20260201_172035_part30',
+  },
+  {
+    up: migration_20260201_172035_part31.up,
+    down: migration_20260201_172035_part31.down,
+    name: '20260201_172035_part31',
+  },
+  {
+    up: migration_20260201_172035_part32.up,
+    down: migration_20260201_172035_part32.down,
+    name: '20260201_172035_part32',
+  },
+  {
+    up: migration_20260201_172035_part33.up,
+    down: migration_20260201_172035_part33.down,
+    name: '20260201_172035_part33',
   },
   {
     up: migration_20260201_174216.up,
@@ -238,6 +430,6 @@ export const migrations = [
   {
     up: migration_20260202_182506.up,
     down: migration_20260202_182506.down,
-    name: '20260202_182506'
-  },
+    name: '20260202_182506',
+  }
 ];

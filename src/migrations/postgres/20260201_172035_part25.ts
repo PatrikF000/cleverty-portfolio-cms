@@ -1,0 +1,309 @@
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+
+export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+  await db.execute(sql`
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_flats_snippets_flats_set_link_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_flats_snippets_flats_set_link_appearance";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_simple_slider_slide_width";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_multi_slider_images_slide_width";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_gallery_settings_padding_top";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_gallery_settings_padding_bottom";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_gallery_settings_background";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_controls_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_gallery_variant";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_link_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_link_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_link_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_gallery_link_appearance";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_main_buttons_link_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_main_buttons_link_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_main_buttons_link_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_main_buttons_link_appearance";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_secondary_buttons_link_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_secondary_buttons_link_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_secondary_buttons_link_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_hero_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_buttons_button_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_buttons_button_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_buttons_button_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_buttons_button_appearance";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_high_set_padding_top";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_high_set_padding_bottom";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_high_set_background";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_highlighted_text_text_size";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_person_bullets_feature_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_person_bullets_feature_bg";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_img_cont_set_padding_top";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_img_cont_set_padding_bottom";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_img_cont_set_background";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_content_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_accordion_link_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_accordion_link_icon";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_accordion_link_relation";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_accordion_link_appearance";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_img_content_image_position";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_images_grid_images_settings_padding_top";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_images_grid_images_settings_padding_bottom";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_images_grid_images_settings_background";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_images_grid_layout";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_images_grid_direction_variant";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_image_pins_pins_pin_position";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_image_pins_image_pins_set_padding_top";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_image_pins_image_pins_set_padding_bottom";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_image_pins_image_pins_set_background";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    DROP TYPE "public"."enum__pages_v_blocks_image_pins_image_pins_set_link_type";
+EXCEPTION
+    WHEN undefined_object THEN null;
+END $$;
+`)
+}
+
+export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+  // Down migration not needed - this is part of a larger migration split
+}
