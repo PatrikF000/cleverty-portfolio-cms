@@ -5,6 +5,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 // Force IPv4 for DNS resolution (Render free tier doesn't support IPv6 outbound)
 dns.setDefaultResultOrder('ipv4first')
+
+
 import path from 'path'
 import { buildConfig, CORSConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -19,18 +21,8 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 // import { s3Storage } from '@payloadcms/storage-s3'
 // import { seoPlugin } from '@payloadcms/plugin-seo'
 
-const isProduction = process.env.NODE_ENV === 'production'
+// const isProduction = process.env.NODE_ENV === 'production'
 
-// Conditional SQLite import
-/*let sqliteAdapter: any = null
-if (!isProduction && process.env.RENDER !== 'true') {
-  try {
-    const sqliteModule = await import('@payloadcms/db-sqlite')
-    sqliteAdapter = sqliteModule.sqliteAdapter
-  } catch (error) {
-    console.warn('SQLite adapter not available:', error)
-  }
-}*/
 
 import { migrations as POSTGRESMIG } from './migrations/postgres'
 //import { migrations as SQLITEMIG } from './migrations/sqlite'
@@ -54,32 +46,6 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
-    // Volitelně přidáš do levého menu:
-    // nav: [{ label: 'Moje stránka', path: '/custom' }]
-    // components: {
-    //   graphics: {
-    //     Icon: '/components/payload/logo/Logo',
-    //     Logo: '/components/payload/logo/Logo',
-    //   },
-    //   views: {
-    //     migratePage: {
-    //       Component: '/components/pages/migratePage/MigratePage',
-    //       path: '/migrate-page',
-    //       meta: {
-    //         title: 'Migrace dat',
-    //         description: 'Import a aktualizace dat z RealPad API',
-    //         openGraph: {
-    //           title: 'Migrace dat',
-    //         },
-    //       },
-    //     },
-    //     dashboard: {
-    //       Component: '/components/payload/dashboard/Dashboard',
-    //     },
-    //   },
-    //   Nav: ['/components/payload/navbar/Navbar'] as unknown as CustomComponent<Record<string, any>>,
-    //   header: ['/components/payload/header/Header'],
-    // },
   },
   // email: resendAdapter({
   //   defaultFromAddress: 'hello@artstay.co',
@@ -118,51 +84,15 @@ export default buildConfig({
     // localesSuffix: 'stoone',
     prodMigrations: POSTGRESMIG,
   }),
-  /* isProduction || process.env.RENDER === 'true'
-      ? postgresAdapter({
-          pool: {
-            connectionString: process.env.DATABASE_URI,
-            ssl: {
-              rejectUnauthorized: false,
-            },
-          },
-          push: false, // vypne auto-push v produkci
-          migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace
-          disableCreateDatabase: true,
-          localesSuffix: 'stoone',
-          prodMigrations: POSTGRESMIG,
-        })
-      : sqliteAdapter
-        ? sqliteAdapter({
-            client: {
-              url: 'file:./payload-cms.db',
-            },
-            push: true, // vypne auto-push i na lokálu, spoléháme pouze na migrace
-            migrationDir: 'src/migrations/sqlite',
-            prodMigrations: SQLITEMIG,
-          })
-        : postgresAdapter({
-            pool: {
-              connectionString: process.env.DATABASE_URI,
-              ssl: {
-                rejectUnauthorized: false,
-              },
-            },
-            push: false, // vypne auto-push v produkci
-            migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace
-            disableCreateDatabase: true,
-            localesSuffix: 'stoone',
-            prodMigrations: POSTGRESMIG,
-          })*/
-    collections: [
-      FundAdministrators,
-      InvestmentCompanies,
-      Investments,
-      Roles,
-      Users,
-      Media,
-      Portfolios,
-    ],
+  collections: [
+    FundAdministrators,
+    InvestmentCompanies,
+    Investments,
+    Roles,
+    Users,
+    Media,
+    Portfolios,
+  ],
   i18n: {
     fallbackLanguage: 'cs', // default
     supportedLanguages: { cs, en },
@@ -187,134 +117,5 @@ export default buildConfig({
   onInit: async (payload) => {
     await seedAdminUser(payload)
   },
-  // plugins:
-  //   isProduction || process.env.RENDER === 'true'
-  //     ? ([
-  //         payloadCloudPlugin(),
-  //         /*uploadthingStorage({
-  //         collections: {
-  //           media: true,
-  //         },
-  //         options: {
-  //           token: process.env.UPLOADTHING_TOKEN || '',
-  //           acl: 'public-read',
-  //         },
-  //       }),*/
-  //         // storage-adapter-placeholder
-  //         /*cloudinaryStorage({
-  //         config: {
-  //           cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
-  //           api_key: process.env.CLOUDINARY_API_KEY || '',
-  //           api_secret: process.env.CLOUDINARY_API_SECRET || '',
-  //         },
-  //         collections: {
-  //           media: true, // Enable for media collection
-  //           // Add more collections as needed
-  //         },
-  //         folder: 'media', // Optional, defaults to 'payload-media'
-  //         disableLocalStorage: true, // Optional, defaults to true
-  //         enabled: true, // Optional, defaults to true
-  //       }),*/
-
-  //         s3Storage({
-  //           collections: {
-  //             media: true,
-  //             documents: true,
-  //           },
-  //           bucket: process.env.S3_BUCKET || '',
-  //           config: {
-  //             credentials: {
-  //               accessKeyId: process.env.S3_ACCESSKEY || '',
-  //               secretAccessKey: process.env.S3_SECRETKEY || '',
-  //             },
-  //             region: 'auto',
-  //             endpoint: process.env.S3_ENDPOINT || '',
-  //           },
-  //         }),
-  //       ] as Plugin[])
-  //     : ([
-  //         payloadCloudPlugin(),
-  //         /*s3Storage({
-  //           collections: {
-  //             media: true,
-  //             documents: true,
-  //           },
-  //           bucket: process.env.S3_BUCKET || '',
-  //           config: {
-  //             credentials: {
-  //               accessKeyId: process.env.S3_ACCESSKEY || '',
-  //               secretAccessKey: process.env.S3_SECRETKEY || '',
-  //             },
-  //             region: 'auto',
-  //             endpoint: process.env.S3_ENDPOINT || '',
-  //           },
-  //         }),*/
-  //       ] as Plugin[]),
-  plugins: [
-
-    // ...(isProduction || process.env.RENDER === 'true'
-    //   ? [
-    //       payloadCloudPlugin(),
-    //       /*uploadthingStorage({
-    //       collections: {
-    //         media: true,
-    //       },
-    //       options: {
-    //         token: process.env.UPLOADTHING_TOKEN || '',
-    //         acl: 'public-read',
-    //       },
-    //     }),*/
-    //       // storage-adapter-placeholder
-    //       /*cloudinaryStorage({
-    //       config: {
-    //         cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
-    //         api_key: process.env.CLOUDINARY_API_KEY || '',
-    //         api_secret: process.env.CLOUDINARY_API_SECRET || '',
-    //       },
-    //       collections: {
-    //         media: true, // Enable for media collection
-    //         // Add more collections as needed
-    //       },
-    //       folder: 'media', // Optional, defaults to 'payload-media'
-    //       disableLocalStorage: true, // Optional, defaults to true
-    //       enabled: true, // Optional, defaults to true
-    //     }),*/
-
-    //       s3Storage({
-    //         collections: {
-    //           media: true,
-    //           // documents: true,
-    //         },
-    //         bucket: process.env.S3_BUCKET || '',
-    //         config: {
-    //           credentials: {
-    //             accessKeyId: process.env.S3_ACCESSKEY || '',
-    //             secretAccessKey: process.env.S3_SECRETKEY || '',
-    //           },
-    //           region: 'auto',
-    //           endpoint: process.env.S3_ENDPOINT || '',
-    //         },
-    //         disableLocalStorage: true,
-    //         acl: 'public-read',
-    //       }),
-    //     ]
-    //   : [
-    //       payloadCloudPlugin(),
-    //       /*s3Storage({
-    //         collections: {
-    //           media: true,
-    //           documents: true,
-    //         },
-    //         bucket: process.env.S3_BUCKET || '',
-    //         config: {
-    //           credentials: {
-    //             accessKeyId: process.env.S3_ACCESSKEY || '',
-    //             secretAccessKey: process.env.S3_SECRETKEY || '',
-    //           },
-    //           region: 'auto',
-    //           endpoint: process.env.S3_ENDPOINT || '',
-    //         },
-    //       }),*/
-    //     ]),
-  ],
+  plugins: [],
 })

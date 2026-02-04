@@ -50,9 +50,6 @@ ENV NEXT_PUBLIC_PAYLOAD_URL=${NEXT_PUBLIC_PAYLOAD_URL}
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Set production environment for build
-ENV NODE_ENV=production
-
 # Generate Payload admin UI assets
 RUN npx payload generate:importmap
 RUN npx payload generate:types
@@ -72,8 +69,7 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-# PORT will be set by Render (10000) - this is just a fallback
-ENV PORT=${PORT:-10000}
+ENV PORT=3000
 
 RUN apt-get update && apt-get install -y curl && apt-get clean
 
@@ -93,8 +89,7 @@ RUN mkdir -p .next && chown -R nextjs:nodejs .next
 
 USER nextjs
 
-EXPOSE 10000
+EXPOSE 3000
 
 # ✅ pokud používáš standalone build, Next.js vygeneruje server.js
-# --dns-result-order=ipv4first forces IPv4 (Render free tier doesn't support IPv6)
-CMD ["node", "--dns-result-order=ipv4first", "server.js"]
+CMD ["node", "server.js"]
