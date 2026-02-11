@@ -14,7 +14,7 @@ export const InvestmentCompanies: CollectionConfig = {
     },
   },
   access: {
-    read: () => true, // Allow public read access
+    read: authenticatedAdmin,
     create: authenticatedAdmin,
     update: authenticatedAdmin,
     delete: authenticatedAdmin,

@@ -14,10 +14,10 @@ export const FundAdministrators: CollectionConfig = {
     },
   },
   access: {
-    read: () => true,
-    // create: authenticatedAdmin,
-    // delete: authenticatedAdmin,
-    // update: authenticatedAdmin,
+    read: authenticatedAdmin,
+    create: authenticatedAdmin,  
+    delete: authenticatedAdmin,
+    update: authenticatedAdmin,
   },
   admin: {
     useAsTitle: 'email',

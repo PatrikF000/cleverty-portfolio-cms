@@ -11,7 +11,7 @@ export const Roles: CollectionConfig = {
     create: authenticatedAdmin,
     update: authenticatedAdmin,
     delete: authenticatedAdmin,
-    read: () => true, //authenticated,
+    read: authenticatedAdmin
   },
   admin: {
     useAsTitle: 'name',

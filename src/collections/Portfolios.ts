@@ -18,14 +18,14 @@ import {
       },
     },
     access: {
-      read: () => true,
-      create: () => true,
-      update: () => true,
-      delete: () => true,
-      // read: authenticatedAdminOrOwnPortfolio,
-      // create: authenticatedAdminOrOwnPortfolioCreate, // Users can create their own portfolios
-      // update: authenticatedAdminOrOwnPortfolioUpdate, // Users can update their own portfolios
-      // delete: authenticatedAdminOrOwnPortfolioUpdate, // Users can delete their own portfolios
+      // read: () => true,
+      // create: () => true, 
+      // update: () => true,
+      // delete: () => true,
+      read: authenticatedAdminOrOwnPortfolio,
+      create: authenticatedAdminOrOwnPortfolioCreate, // Users can create their own portfolios
+      update: authenticatedAdminOrOwnPortfolioUpdate, // Users can update their own portfolios
+      delete: authenticatedAdminOrOwnPortfolioUpdate, // Users can delete their own portfolios
     },
     admin: {
       useAsTitle: 'name',
