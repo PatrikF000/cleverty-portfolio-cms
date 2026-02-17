@@ -63,7 +63,7 @@ export default buildConfig({
       'http://localhost:3001',
       'https://cleverty-portfolio-cms.onrender.com',
       'https://cleverty-portfolio-cms-1.onrender.com',
-
+      'https://cleverty-portfolio-creator.vercel.app',
       process.env.NEXT_PUBLIC_PAYLOAD_URL || '',
     ].filter(Boolean),
   } as CORSConfig,
