@@ -8,10 +8,10 @@ interface RevalidationData {
 
 export async function revalidateFrontend(data: RevalidationData) {
   try {
-    const frontendUrl = data?.urlProject
+    const frontendUrl = data?.urlProject ?? process.env.FRONTEND_URL
 
     if (!frontendUrl) {
-      //console.error('No frontend URL provided')
+      console.error('Revalidate: No frontend URL (set FRONTEND_URL or pass urlProject)')
       return false
     }
     console.log('revalidate')

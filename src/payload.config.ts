@@ -6,7 +6,6 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 // Force IPv4 for DNS resolution (Render free tier doesn't support IPv6 outbound)
 dns.setDefaultResultOrder('ipv4first')
 
-
 import path from 'path'
 import { buildConfig, CORSConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -22,7 +21,6 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 // import { seoPlugin } from '@payloadcms/plugin-seo'
 
 // const isProduction = process.env.NODE_ENV === 'production'
-
 
 import { migrations as POSTGRESMIG } from './migrations/postgres'
 //import { migrations as SQLITEMIG } from './migrations/sqlite'
@@ -65,8 +63,7 @@ export default buildConfig({
       'http://localhost:3001',
       'https://cleverty-portfolio-cms.onrender.com',
       'https://cleverty-portfolio-cms-1.onrender.com',
-      // 'https://dev-stoone.artstay.co',
-      // 'https://stoone.artstay.co',
+
       process.env.NEXT_PUBLIC_PAYLOAD_URL || '',
     ].filter(Boolean),
   } as CORSConfig,
@@ -77,9 +74,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI,
       // Use SSL only for remote/cloud databases, not for local development
-      ssl: process.env.DATABASE_URI?.includes('localhost') || process.env.DATABASE_URI?.includes('127.0.0.1')
-        ? false
-        : { rejectUnauthorized: false },
+      ssl:
+        process.env.DATABASE_URI?.includes('localhost') ||
+        process.env.DATABASE_URI?.includes('127.0.0.1')
+          ? false
+          : { rejectUnauthorized: false },
     },
     push: false, //isProduction && process.env.RENDER === 'true' ? false : false, // false on production vypne auto-push v produkci
     migrationDir: 'src/migrations/postgres', // kam Payload ukládá migrace

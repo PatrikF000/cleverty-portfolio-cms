@@ -1,3 +1,4 @@
+import { revalidateFrontend } from '@/hooks/revalidateFrontend'
 import { authenticatedAdmin } from '../access/authenticatedAdmin'
 import type { CollectionConfig } from 'payload'
 
@@ -14,14 +15,18 @@ export const Investments: CollectionConfig = {
     },
   },
   access: {
-    read: authenticatedAdmin,
-    create: authenticatedAdmin,
-    update: authenticatedAdmin,
-    delete: authenticatedAdmin,
+    // read: authenticatedAdmin,
+    // create: authenticatedAdmin,
+    // update: authenticatedAdmin,
+    // delete: authenticatedAdmin,
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
   admin: {
     useAsTitle: 'investmentName',
-    defaultColumns: [ 'company','investmentName', 'isin' ],
+    defaultColumns: ['company', 'investmentName', 'isin'],
   },
   fields: [
     {
@@ -239,10 +244,16 @@ export const Investments: CollectionConfig = {
             { label: 'Dluhopisy', value: 'dluhopisy' },
             { label: 'Zajištěné pohledávky', value: 'zajistene-pohledavky' },
             { label: 'Nezajištěné pohledávky', value: 'nezajistene-pohledavky' },
-            { label: 'Nemovitosti, rezidenční development', value: 'nemovitosti-rezidencni-development' },
+            {
+              label: 'Nemovitosti, rezidenční development',
+              value: 'nemovitosti-rezidencni-development',
+            },
             { label: 'Development Retail parků', value: 'development-retail-parku' },
             { label: 'Private Equity', value: 'private-equity' },
-            { label: 'Komerční i residenční nemovitosti', value: 'komercni-i-rezidencni-nemovitosti' },
+            {
+              label: 'Komerční i residenční nemovitosti',
+              value: 'komercni-i-rezidencni-nemovitosti',
+            },
             { label: 'Senior house', value: 'senior-house' },
             { label: 'Hotelnictví', value: 'hotelnictvi' },
             { label: 'Repo operace', value: 'repo-operace' },
@@ -289,4 +300,13 @@ export const Investments: CollectionConfig = {
     },
   ],
   timestamps: true,
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation === 'create' || operation === 'update') {
+          await revalidateFrontend({ collection: 'investmentCompanies', id: doc.id })
+        }
+      },
+    ],
+  },
 }

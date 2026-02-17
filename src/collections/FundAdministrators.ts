@@ -14,10 +14,14 @@ export const FundAdministrators: CollectionConfig = {
     },
   },
   access: {
-    read: authenticatedAdmin,
-    create: authenticatedAdmin,  
-    delete: authenticatedAdmin,
-    update: authenticatedAdmin,
+    // read: authenticatedAdmin,
+    // create: authenticatedAdmin,
+    // delete: authenticatedAdmin,
+    // update: authenticatedAdmin,
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
   admin: {
     useAsTitle: 'email',
@@ -36,7 +40,7 @@ export const FundAdministrators: CollectionConfig = {
     {
       name: 'portfolios',
       type: 'relationship',
-      relationTo: 'portfolios', 
+      relationTo: 'portfolios',
       hasMany: true,
       label: {
         cs: 'Portfolia',
