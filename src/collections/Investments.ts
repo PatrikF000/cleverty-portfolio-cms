@@ -268,6 +268,8 @@ export const Investments: CollectionConfig = {
             { label: 'Nástroje peněžního trhu', value: 'nastroje-penezniho-trhu' },
             { label: 'Pohledávky', value: 'pohledavky' },
             { label: 'Krátkodobé investice', value: 'kratkodobe-investice' },
+            { label: 'Finanční služby', value: 'financni-sluzby' },
+            { label: 'Smlouva o úvěru.', value: 'smlouva-o-uveru' },
           ],
           label: {
             cs: 'Sektor',
