@@ -78,6 +78,28 @@ export const Portfolios: CollectionConfig = {
           },
         },
         {
+          name: 'entryFee',
+          type: 'number',
+          min: 0,
+          admin: {
+            step: 1,
+            description: {
+              cs: 'Výše vstupního poplatku pro tuto investici (v procentech)',
+              en: 'Entry fee for this investment (in percentage)',
+            },
+          },
+          label: {
+            cs: 'Vstupní poplatek (v procentech)',
+            en: 'Entry Fee (in percentage)',
+          },
+        },
+        //expectedReturn
+        {
+          name: 'expectedReturn',
+          type: 'number',
+          min: 0,
+        },
+        {
           name: 'depositAmount',
           type: 'number',
           required: true,
@@ -154,54 +176,49 @@ export const Portfolios: CollectionConfig = {
         en: 'Average Return',
       },
       hooks: {
-        beforeValidate: [
-          async ({ data, operation, req }) => {
-            if (!data) return undefined
-            const portfolioData = data
-            if (operation === 'create' || operation === 'update') {
-              if (portfolioData.items && Array.isArray(portfolioData.items)) {
-                // Fetch investment details to get expectedReturn
-                const investmentIds = portfolioData.items
-                  .map((item: any) => item.investment)
-                  .filter(Boolean)
-
-                if (investmentIds.length > 0) {
-                  const investments = await req.payload.find({
-                    collection: 'investments',
-                    where: {
-                      id: {
-                        in: investmentIds,
-                      },
-                    },
-                  })
-
-                  const investmentMap = new Map(investments.docs.map((inv: any) => [inv.id, inv]))
-
-                  let weightedSum = 0
-                  let totalAmount = 0
-
-                  portfolioData.items.forEach((item: any) => {
-                    const investment = investmentMap.get(item.investment)
-                    if (investment && item.depositAmount) {
-                      // expectedReturn is a number, not a string
-                      const returnValue =
-                        typeof investment.expectedReturn === 'number'
-                          ? investment.expectedReturn
-                          : parseFloat(String(investment.expectedReturn || '0'))
-                      weightedSum += (returnValue * item.depositAmount) / 100
-                      totalAmount += item.depositAmount
-                    }
-                  })
-
-                  return totalAmount > 0
-                    ? parseFloat(((weightedSum / totalAmount) * 100).toFixed(2))
-                    : 0
-                }
-              }
-            }
-            return portfolioData.averageReturn || 0
-          },
-        ],
+        // beforeValidate: [
+        //   async ({ data, operation, req }) => {
+        //     if (!data) return undefined
+        //     const portfolioData = data
+        //     if (operation === 'create' || operation === 'update') {
+        //       if (portfolioData.items && Array.isArray(portfolioData.items)) {
+        //         // Fetch investment details to get expectedReturn
+        //         const investmentIds = portfolioData.items
+        //           .map((item: any) => item.investment)
+        //           .filter(Boolean)
+        //         if (investmentIds.length > 0) {
+        //           const investments = await req.payload.find({
+        //             collection: 'investments',
+        //             where: {
+        //               id: {
+        //                 in: investmentIds,
+        //               },
+        //             },
+        //           })
+        //           const investmentMap = new Map(investments.docs.map((inv: any) => [inv.id, inv]))
+        //           let weightedSum = 0
+        //           let totalAmount = 0
+        //           portfolioData.items.forEach((item: any) => {
+        //             const investment = investmentMap.get(item.investment)
+        //             if (investment && item.depositAmount) {
+        //               // expectedReturn is a number, not a string
+        //               const returnValue =
+        //                 typeof investment.expectedReturn === 'number'
+        //                   ? investment.expectedReturn
+        //                   : parseFloat(String(investment.expectedReturn || '0'))
+        //               weightedSum += (returnValue * item.depositAmount) / 100
+        //               totalAmount += item.depositAmount
+        //             }
+        //           })
+        //           return totalAmount > 0
+        //             ? parseFloat(((weightedSum / totalAmount) * 100).toFixed(2))
+        //             : 0
+        //         }
+        //       }
+        //     }
+        //     return portfolioData.averageReturn || 0
+        //   },
+        // ],
       },
     },
     {

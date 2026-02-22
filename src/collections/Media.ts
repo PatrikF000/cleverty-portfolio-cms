@@ -17,7 +17,7 @@ export const Media: CollectionConfig = {
     focalPoint: true,
     adminThumbnail: (doc) => {
       if (process.env.NODE_ENV === 'production' || process.env.RENDER === 'true') {
-        return `${process.env.S3_DOMAIN}/${process.env.S3_BUCKET}/${(doc as any)?.doc?.filename}`
+        return `${process.env.BLOB_DOMAIN}/${process.env.BLOB_CONTAINER}/${(doc as any)?.doc?.filename}`
       }
       return (doc as any)?.url || ''
     },

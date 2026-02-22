@@ -71,6 +71,15 @@ import * as migration_20260202_181849 from './20260202_181849';
 import * as migration_20260202_182256 from './20260202_182256';
 import * as migration_20260202_182506 from './20260202_182506';
 import * as migration_20260219_073617 from './20260219_073617';
+import * as migration_20260222_170900 from './20260222_170900';
+import * as migration_20260222_181118 from './20260222_181118';
+import * as migration_20260222_204714 from './20260222_204714';
+import * as migration_20260222_205057 from './20260222_205057';
+import * as migration_20260222_205129 from './20260222_205129';
+import * as migration_20260222_205318 from './20260222_205318';
+import * as migration_20260222_205546 from './20260222_205546';
+import * as migration_20260222_205703 from './20260222_205703';
+import * as migration_20260222_211915 from './20260222_211915';
 
 export const migrations = [
   {
@@ -436,6 +445,51 @@ export const migrations = [
   {
     up: migration_20260219_073617.up,
     down: migration_20260219_073617.down,
-    name: '20260219_073617'
+    name: '20260219_073617',
+  },
+  {
+    up: migration_20260222_170900.up,
+    down: migration_20260222_170900.down,
+    name: '20260222_170900',
+  },
+  {
+    up: migration_20260222_181118.up,
+    down: migration_20260222_181118.down,
+    name: '20260222_181118',
+  },
+  {
+    up: migration_20260222_204714.up,
+    down: migration_20260222_204714.down,
+    name: '20260222_204714',
+  },
+  {
+    up: migration_20260222_205057.up,
+    down: migration_20260222_205057.down,
+    name: '20260222_205057',
+  },
+  {
+    up: migration_20260222_205129.up,
+    down: migration_20260222_205129.down,
+    name: '20260222_205129',
+  },
+  {
+    up: migration_20260222_205318.up,
+    down: migration_20260222_205318.down,
+    name: '20260222_205318',
+  },
+  {
+    up: migration_20260222_205546.up,
+    down: migration_20260222_205546.down,
+    name: '20260222_205546',
+  },
+  {
+    up: migration_20260222_205703.up,
+    down: migration_20260222_205703.down,
+    name: '20260222_205703',
+  },
+  {
+    up: migration_20260222_211915.up,
+    down: migration_20260222_211915.down,
+    name: '20260222_211915'
   },
 ];

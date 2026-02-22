@@ -11,7 +11,7 @@ export const Roles: CollectionConfig = {
     create: authenticatedAdmin,
     update: authenticatedAdmin,
     delete: authenticatedAdmin,
-    read: authenticatedAdmin
+    read: authenticatedAdmin,
   },
   admin: {
     useAsTitle: 'name',
@@ -70,8 +70,8 @@ export const Roles: CollectionConfig = {
             { label: 'Update', value: 'update' },
             { label: 'Delete', value: 'delete' },
           ],
-        },  
-      
+        },
+
         {
           name: 'investments',
           type: 'select',
@@ -82,7 +82,18 @@ export const Roles: CollectionConfig = {
             { label: 'Update', value: 'update' },
             { label: 'Delete', value: 'delete' },
           ],
-        }
+        },
+        {
+          name: 'documents',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        },
         // {
         //   name: 'pages',
         //   type: 'select',
@@ -193,7 +204,7 @@ export const Roles: CollectionConfig = {
         //     { label: 'Delete', value: 'delete' },
         //   ],
         // },
-        
+
         // {
         //   name: 'documents',
         //   type: 'select',

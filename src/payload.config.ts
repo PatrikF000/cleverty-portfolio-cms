@@ -6,6 +6,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 // Force IPv4 for DNS resolution (Render free tier doesn't support IPv6 outbound)
 dns.setDefaultResultOrder('ipv4first')
 
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+
 import path from 'path'
 import { buildConfig, CORSConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -32,9 +34,13 @@ import { Investments } from './collections/Investments'
 import { InvestmentCompanies } from './collections/InvestmentCompanies'
 import { Portfolios } from './collections/Portfolios'
 import { FundAdministrators } from './collections/FundAdministrators'
+import { Documents } from './collections/Documents'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+const isProduction = process.env.NODE_ENV === 'production'
+
 export default buildConfig({
   jobs: {
     tasks: [],
@@ -93,6 +99,7 @@ export default buildConfig({
     Roles,
     Users,
     Media,
+    Documents,
     Portfolios,
   ],
   i18n: {
@@ -119,5 +126,18 @@ export default buildConfig({
   onInit: async (payload) => {
     await seedAdminUser(payload)
   },
-  plugins: [],
+  plugins: [
+    ...(isProduction || process.env.RENDER === 'true'
+      ? [
+          vercelBlobStorage({
+            enabled: true,
+            collections: {
+              media: true,
+              documents: true,
+            } as Record<string, true>,
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+          }),
+        ]
+      : []),
+  ],
 })

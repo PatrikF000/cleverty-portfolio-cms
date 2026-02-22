@@ -74,6 +74,7 @@ export interface Config {
     roles: Role;
     users: User;
     media: Media;
+    documents: Document;
     portfolios: Portfolio;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -87,6 +88,7 @@ export interface Config {
     roles: RolesSelect<false> | RolesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
     portfolios: PortfoliosSelect<false> | PortfoliosSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -183,6 +185,11 @@ export interface Portfolio {
     | {
         investment: number | Investment;
         /**
+         * Entry fee for this investment (in percentage)
+         */
+        entryFee?: number | null;
+        expectedReturn?: number | null;
+        /**
          * Deposit amount for this investment
          */
         depositAmount: number;
@@ -269,6 +276,8 @@ export interface Investment {
         | 'nastroje-penezniho-trhu'
         | 'pohledavky'
         | 'kratkodobe-investice'
+        | 'financni-sluzby'
+        | 'smlouva-o-uveru'
       )
     | null;
   /**
@@ -301,6 +310,7 @@ export interface Role {
     fundAdministrators?: ('create' | 'read' | 'update' | 'delete')[] | null;
     investmentCompanies?: ('create' | 'read' | 'update' | 'delete')[] | null;
     investments?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    documents?: ('create' | 'read' | 'update' | 'delete')[] | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -402,6 +412,30 @@ export interface Media {
   };
 }
 /**
+ * Upload document files (PDF, DOCX, XLSX, etc.)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  /**
+   * Optional description of the document
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -431,6 +465,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: number | Document;
       } | null)
     | ({
         relationTo: 'portfolios';
@@ -549,6 +587,7 @@ export interface RolesSelect<T extends boolean = true> {
         fundAdministrators?: T;
         investmentCompanies?: T;
         investments?: T;
+        documents?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -664,6 +703,24 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "portfolios_select".
  */
 export interface PortfoliosSelect<T extends boolean = true> {
@@ -673,6 +730,8 @@ export interface PortfoliosSelect<T extends boolean = true> {
     | T
     | {
         investment?: T;
+        entryFee?: T;
+        expectedReturn?: T;
         depositAmount?: T;
         currency?: T;
         id?: T;

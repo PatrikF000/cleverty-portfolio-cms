@@ -1,4 +1,4 @@
-import {  Role } from '@/payload-types'
+import { Role } from '@/payload-types'
 import { Payload } from 'payload'
 
 export const seedAdminUser = async (payload: Payload): Promise<void> => {
@@ -20,6 +20,7 @@ export const seedAdminUser = async (payload: Payload): Promise<void> => {
             fundAdministrators: ['create', 'read', 'update', 'delete'],
             portfolios: ['create', 'read', 'update', 'delete'],
             media: ['create', 'read', 'update', 'delete'],
+            documents: ['create', 'read', 'update', 'delete'],
           },
         },
       })
@@ -50,9 +51,7 @@ export const seedAdminUser = async (payload: Payload): Promise<void> => {
       error?.message?.includes('does not exist') ||
       error?.message?.includes('relation')
     ) {
-      console.warn(
-        '⚠️  Database tables not found. Please run migrations first: pnpm migrate',
-      )
+      console.warn('⚠️  Database tables not found. Please run migrations first: pnpm migrate')
       console.warn('   Skipping admin user seeding until migrations are complete.')
       return
     }
