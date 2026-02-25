@@ -1,4 +1,5 @@
 import { authenticatedAdmin } from '@/access/authenticatedAdmin'
+import { revalidateFrontend } from '@/hooks/revalidateFrontend'
 import type { CollectionConfig } from 'payload'
 
 export const FundAdministrators: CollectionConfig = {
@@ -55,4 +56,13 @@ export const FundAdministrators: CollectionConfig = {
     },
   ],
   timestamps: true,
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation === 'create' || operation === 'update') {
+          await revalidateFrontend({ collection: 'fundAdministrators', id: doc.id })
+        }
+      },
+    ],
+  },
 }
