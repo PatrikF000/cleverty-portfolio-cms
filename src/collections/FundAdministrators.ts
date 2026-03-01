@@ -1,4 +1,5 @@
-import { authenticatedAdmin } from '@/access/authenticatedAdmin'
+import { accessByDomain } from '@/access/domains/domainsAccess'
+import { authenticated } from '@/access/authenticated'
 import { revalidateFrontend } from '@/hooks/revalidateFrontend'
 import type { CollectionConfig } from 'payload'
 
@@ -15,14 +16,10 @@ export const FundAdministrators: CollectionConfig = {
     },
   },
   access: {
-    // read: authenticatedAdmin,
-    // create: authenticatedAdmin,
-    // delete: authenticatedAdmin,
-    // update: authenticatedAdmin,
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    read: accessByDomain,
+    create: authenticated,
+    delete: authenticated,
+    update: authenticated,
   },
   admin: {
     useAsTitle: 'email',

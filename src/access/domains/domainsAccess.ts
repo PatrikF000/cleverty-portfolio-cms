@@ -1,63 +1,51 @@
-//import { cookies } from 'next/headers'
+import type { Access } from 'payload'
 
-// Funkce pro kontrolu přístupu k obrázkům podle projektu
-export const accessByDomain = async ({ req }: { req: any }) => {
-  // Pokud je uživatel přihlášený, má přístup
-  if (req.user) return true
+/** Povolené domény pro anonymní read přístup (frontend) */
+const ALLOWED_DOMAINS = [
+  'https://stoone-cpi.artstay.co',
+  'https://dev-stoone-cpi.artstay.co',
+  'https://dev-delarg.artstay.co',
+  'http://localhost:3000',
+  'http://localhost:3001',
+]
 
-  // Získat referer z req objektu - zkusit různé možnosti
-  /*let referer =
-    req.headers?.referer ||
-    req.headers?.origin ||
-    req.headers?.host ||
-    req.headers?.['x-forwarded-host'] ||
-    ''
-*/
-  // Pokud nemáme referer, zkusit získat z URL nebo jiných zdrojů
-  /*if (!referer) {
-    // Zkusit získat z req.url
-    /*if (req.url) {
-      try {
-        const url = new URL(req.url)
-        referer = `${url.protocol}//${url.host}`
-      } catch (e) {
-        console.log('Error getting referer from url', e)
-      }
-    }*/
-
-  // Zkusit získat z req.connection nebo req.socket
-  /*if (!referer && req.connection?.encrypted) {
-      referer = 'https://localhost:3000'
-    } else if (!referer && req.connection) {
-      referer = 'http://localhost:3000'
-    }*/
-  /*
-    // Poslední fallback - použít localhost
-    if (!referer) {
-      referer = process.env.NEXT_PUBLIC_PAYLOAD_URL
+function getHeader(headers: unknown, name: string): string | undefined {
+  try {
+    const h = headers as any
+    if (h?.get && typeof h.get === 'function') {
+      return h.get(name) ?? undefined
     }
-  }*/
-
-  const isAllowedDomain = checkDomainForProject(process.env.NEXT_PUBLIC_PAYLOAD_URL || '')
-
-  return isAllowedDomain
+    return h?.[name] ?? h?.[name.toLowerCase()]
+  } catch {
+    return undefined
+  }
 }
 
-// Funkce pro kontrolu, zda doména odpovídá projektu
-export const checkDomainForProject = (referer: string) => {
-  // Pokud není referer, zamítnout přístup
-  if (!referer) {
-    return false
+/**
+ * Read access pro kolekce: přihlášení uživatelé, API key, nebo anonymní z povolených domén.
+ */
+export const accessByDomain: Access = async ({ req }) => {
+  // Přihlášený uživatel má přístup
+  if (req.user) return true
+
+  // API key má přístup
+  const apiKey = getHeader(req.headers, 'x-api-key')
+  if (apiKey === process.env.CMS_API_TOKEN) return true
+
+  // Anonymní: kontrola referer/origin/host
+  const referer = getHeader(req.headers, 'referer')
+  const origin = getHeader(req.headers, 'origin')
+  const forwardedHost = getHeader(req.headers, 'x-forwarded-host')
+  const forwardedProto = getHeader(req.headers, 'x-forwarded-proto')
+  const host = getHeader(req.headers, 'host')
+
+  const sources: string[] = []
+  if (referer) sources.push(referer)
+  if (origin) sources.push(origin)
+  if (forwardedHost) sources.push(`${forwardedProto === 'https' ? 'https' : 'http'}://${forwardedHost}`)
+  if (host) {
+    sources.push(`http://${host}`, `https://${host}`)
   }
-  const domains = [
-    'https://stoone-cpi.artstay.co',
-    'https://dev-stoone-cpi.artstay.co',
-    'https://dev-delarg.artstay.co',
-    'http://localhost:3000',
-    'http://localhost:3001',
-  ]
 
-  const isAllowed = domains.some((domain) => referer.startsWith(domain))
-
-  return isAllowed
+  return sources.some((s) => s && ALLOWED_DOMAINS.some((d) => s.startsWith(d)))
 }

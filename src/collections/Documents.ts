@@ -23,14 +23,10 @@ export const Documents: CollectionConfig = {
     plural: { cs: 'Dokumenty', en: 'Documents' },
   },
   access: {
-    // read: accessByDomain,
-    // create: authenticated,
-    // delete: authenticated,
-    // update: authenticated,
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    read: accessByDomain,
+    create: authenticated,
+    delete: authenticated,
+    update: authenticated,
   },
   admin: {
     useAsTitle: 'filename',

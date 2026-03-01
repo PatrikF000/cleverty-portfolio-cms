@@ -1,5 +1,6 @@
 import { revalidateFrontend } from '@/hooks/revalidateFrontend'
-import { authenticatedAdmin } from '../access/authenticatedAdmin'
+import { accessByDomain } from '@/access/domains/domainsAccess'
+import { authenticated } from '@/access/authenticated'
 import type { CollectionConfig } from 'payload'
 
 export const Investments: CollectionConfig = {
@@ -15,14 +16,10 @@ export const Investments: CollectionConfig = {
     },
   },
   access: {
-    // read: authenticatedAdmin,
-    // create: authenticatedAdmin,
-    // update: authenticatedAdmin,
-    // delete: authenticatedAdmin,
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    read: accessByDomain,
+    create: authenticated,
+    delete: authenticated,
+    update: authenticated,
   },
   admin: {
     useAsTitle: 'investmentName',

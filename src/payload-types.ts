@@ -178,6 +178,7 @@ export interface Portfolio {
   id: number;
   name: string;
   user: number | FundAdministrator;
+  note?: string | null;
   /**
    * List of investments in the portfolio with deposit amount for each investment
    */
@@ -193,7 +194,16 @@ export interface Portfolio {
          * Deposit amount for this investment
          */
         depositAmount: number;
+        /**
+         * Amount to add/invest
+         */
+        additionalInvestment?: number | null;
+        /**
+         * Total value (deposit + additional)
+         */
+        totalValue?: number | null;
         currency: string;
+        itemNote?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -726,6 +736,7 @@ export interface DocumentsSelect<T extends boolean = true> {
 export interface PortfoliosSelect<T extends boolean = true> {
   name?: T;
   user?: T;
+  note?: T;
   items?:
     | T
     | {
@@ -733,7 +744,10 @@ export interface PortfoliosSelect<T extends boolean = true> {
         entryFee?: T;
         expectedReturn?: T;
         depositAmount?: T;
+        additionalInvestment?: T;
+        totalValue?: T;
         currency?: T;
+        itemNote?: T;
         id?: T;
       };
   totalInvestment?: T;

@@ -1,8 +1,5 @@
-import {
-  authenticatedAdminOrOwnPortfolio,
-  authenticatedAdminOrOwnPortfolioCreate,
-  authenticatedAdminOrOwnPortfolioUpdate,
-} from '@/access/authenticatedAdminOrOwnPortfolio'
+import { accessByDomain } from '@/access/domains/domainsAccess'
+import { authenticated } from '@/access/authenticated'
 import type { CollectionConfig } from 'payload'
 
 export const Portfolios: CollectionConfig = {
@@ -18,14 +15,10 @@ export const Portfolios: CollectionConfig = {
     },
   },
   access: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
-    // read: authenticatedAdminOrOwnPortfolio,
-    // create: authenticatedAdminOrOwnPortfolioCreate, // Users can create their own portfolios
-    // update: authenticatedAdminOrOwnPortfolioUpdate, // Users can update their own portfolios
-    // delete: authenticatedAdminOrOwnPortfolioUpdate, // Users can delete their own portfolios
+    read: accessByDomain,
+    create: authenticated,
+    delete: authenticated,
+    update: authenticated,
   },
   admin: {
     useAsTitle: 'name',
@@ -50,6 +43,15 @@ export const Portfolios: CollectionConfig = {
       label: {
         cs: 'Administrátor fondu',
         en: 'Fund Administrator',
+      },
+    },
+    // note
+    {
+      name: 'note',
+      type: 'text',
+      label: {
+        cs: 'Poznámka',
+        en: 'Note',
       },
     },
     {
@@ -117,6 +119,49 @@ export const Portfolios: CollectionConfig = {
           },
         },
         {
+          name: 'additionalInvestment',
+          type: 'number',
+          min: 0,
+          admin: {
+            step: 0.01,
+            description: {
+              cs: 'Částka k doinvestování',
+              en: 'Amount to add/invest',
+            },
+          },
+          label: {
+            cs: 'Doinvestovat',
+            en: 'Additional Investment',
+          },
+        },
+        {
+          name: 'totalValue',
+          type: 'number',
+          min: 0,
+          admin: {
+            readOnly: true,
+            step: 0.01,
+            description: {
+              cs: 'Celková hodnota (vklad + doinvestovat)',
+              en: 'Total value (deposit + additional)',
+            },
+          },
+          label: {
+            cs: 'Celková hodnota',
+            en: 'Total Value',
+          },
+          hooks: {
+            beforeValidate: [
+              async ({ data }) => {
+                if (!data) return undefined
+                const deposit = data.depositAmount ?? 0
+                const additional = data.additionalInvestment ?? 0
+                return deposit + additional
+              },
+            ],
+          },
+        },
+        {
           name: 'currency',
           type: 'text',
           required: true,
@@ -124,6 +169,15 @@ export const Portfolios: CollectionConfig = {
           label: {
             cs: 'Měna',
             en: 'Currency',
+          },
+        },
+        // item note
+        {
+          name: 'itemNote',
+          type: 'text',
+          label: {
+            cs: 'Poznámka k investici',
+            en: 'Note for this investment',
           },
         },
       ],
