@@ -30,11 +30,13 @@ import { Roles } from './collections/Roles'
 
 // import { resendAdapter } from '@payloadcms/email-resend'
 import { seedAdminUser } from './scripts/seedAdmin'
+import { seedSectors } from './scripts/seedSectors'
 import { Investments } from './collections/Investments'
 import { InvestmentCompanies } from './collections/InvestmentCompanies'
 import { Portfolios } from './collections/Portfolios'
 import { FundAdministrators } from './collections/FundAdministrators'
 import { Documents } from './collections/Documents'
+import { Sectors } from './collections/Sectors'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -95,6 +97,7 @@ export default buildConfig({
   collections: [
     FundAdministrators,
     InvestmentCompanies,
+    Sectors,
     Investments,
     Roles,
     Users,
@@ -125,6 +128,7 @@ export default buildConfig({
   sharp,
   onInit: async (payload) => {
     await seedAdminUser(payload)
+    await seedSectors(payload)
   },
   plugins: [
     ...(isProduction || process.env.RENDER === 'true'

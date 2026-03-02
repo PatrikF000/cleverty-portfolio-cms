@@ -21,6 +21,15 @@ export const isAdminFieldLevel: FieldAccess<{ id: string }> = ({ req: { user } }
   return user?.id === 1
 }
 
+export const isSuperAdmin: isAuthenticated = ({ req: { user } }) => {
+  if (!user || user.collection !== 'users') return false
+  const userObject = user.role as Role
+  return userObject?.id === 2
+}
+
+export const isSuperAdminFieldLevel: FieldAccess<{ id: string }> = ({ req: { user } }) => {
+  return user?.id === 2
+}
 /**
  * Access control for role field that allows access during first user creation
  * or when user is admin (id === 1)

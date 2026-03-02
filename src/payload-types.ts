@@ -70,6 +70,7 @@ export interface Config {
   collections: {
     fundAdministrators: FundAdministrator;
     investmentCompanies: InvestmentCompany;
+    sectors: Sector;
     investments: Investment;
     roles: Role;
     users: User;
@@ -84,6 +85,7 @@ export interface Config {
   collectionsSelect: {
     fundAdministrators: FundAdministratorsSelect<false> | FundAdministratorsSelect<true>;
     investmentCompanies: InvestmentCompaniesSelect<false> | InvestmentCompaniesSelect<true>;
+    sectors: SectorsSelect<false> | SectorsSelect<true>;
     investments: InvestmentsSelect<false> | InvestmentsSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -260,36 +262,7 @@ export interface Investment {
   /**
    * Investment sector
    */
-  sector?:
-    | (
-        | 'komercni-nemovitosti'
-        | 'uvery'
-        | 'energetika'
-        | 'dluhopisy'
-        | 'zajistene-pohledavky'
-        | 'nezajistene-pohledavky'
-        | 'nemovitosti-rezidencni-development'
-        | 'development-retail-parku'
-        | 'private-equity'
-        | 'komercni-i-rezidencni-nemovitosti'
-        | 'senior-house'
-        | 'hotelnictvi'
-        | 'repo-operace'
-        | 'akcie-a-dluhopisy'
-        | 'akcie'
-        | 'obranny-prumysl'
-        | 'investicni-nastroje'
-        | 'hedge-fondy'
-        | 'etf-fondy'
-        | 'virtualni-meny'
-        | 'rezidencni-nemovitosti'
-        | 'nastroje-penezniho-trhu'
-        | 'pohledavky'
-        | 'kratkodobe-investice'
-        | 'financni-sluzby'
-        | 'smlouva-o-uveru'
-      )
-    | null;
+  sector?: (number | null) | Sector;
   /**
    * Minimum investment amount (e.g. "1,000,000 CZK", "100 CZK")
    */
@@ -308,6 +281,29 @@ export interface InvestmentCompany {
   createdAt: string;
 }
 /**
+ * Investment sectors for assignment to investments
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sectors".
+ */
+export interface Sector {
+  id: number;
+  /**
+   * Display name of the sector (e.g. "Commercial real estate")
+   */
+  name: string;
+  /**
+   * URL-safe identifier (e.g. "komercni-nemovitosti")
+   */
+  slug: string;
+  /**
+   * Display order in list (lower number = higher)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
  */
@@ -320,6 +316,7 @@ export interface Role {
     fundAdministrators?: ('create' | 'read' | 'update' | 'delete')[] | null;
     investmentCompanies?: ('create' | 'read' | 'update' | 'delete')[] | null;
     investments?: ('create' | 'read' | 'update' | 'delete')[] | null;
+    sectors?: ('create' | 'read' | 'update' | 'delete')[] | null;
     documents?: ('create' | 'read' | 'update' | 'delete')[] | null;
   };
   updatedAt: string;
@@ -461,6 +458,10 @@ export interface PayloadLockedDocument {
         value: number | InvestmentCompany;
       } | null)
     | ({
+        relationTo: 'sectors';
+        value: number | Sector;
+      } | null)
+    | ({
         relationTo: 'investments';
         value: number | Investment;
       } | null)
@@ -564,6 +565,17 @@ export interface InvestmentCompaniesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sectors_select".
+ */
+export interface SectorsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "investments_select".
  */
 export interface InvestmentsSelect<T extends boolean = true> {
@@ -597,6 +609,7 @@ export interface RolesSelect<T extends boolean = true> {
         fundAdministrators?: T;
         investmentCompanies?: T;
         investments?: T;
+        sectors?: T;
         documents?: T;
       };
   updatedAt?: T;

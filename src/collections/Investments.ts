@@ -232,42 +232,8 @@ export const Investments: CollectionConfig = {
         },
         {
           name: 'sector',
-          type: 'select',
-          // required: true,
-          options: [
-            { label: 'Komerční nemovitosti', value: 'komercni-nemovitosti' },
-            { label: 'Úvěry', value: 'uvery' },
-            { label: 'Energetika', value: 'energetika' },
-            { label: 'Dluhopisy', value: 'dluhopisy' },
-            { label: 'Zajištěné pohledávky', value: 'zajistene-pohledavky' },
-            { label: 'Nezajištěné pohledávky', value: 'nezajistene-pohledavky' },
-            {
-              label: 'Nemovitosti, rezidenční development',
-              value: 'nemovitosti-rezidencni-development',
-            },
-            { label: 'Development Retail parků', value: 'development-retail-parku' },
-            { label: 'Private Equity', value: 'private-equity' },
-            {
-              label: 'Komerční i residenční nemovitosti',
-              value: 'komercni-i-rezidencni-nemovitosti',
-            },
-            { label: 'Senior house', value: 'senior-house' },
-            { label: 'Hotelnictví', value: 'hotelnictvi' },
-            { label: 'Repo operace', value: 'repo-operace' },
-            { label: 'Akcie a dluhopisy', value: 'akcie-a-dluhopisy' },
-            { label: 'Akcie', value: 'akcie' },
-            { label: 'Obranný průmysl', value: 'obranny-prumysl' },
-            { label: 'Investiční nástroje', value: 'investicni-nastroje' },
-            { label: 'Hedge fondy', value: 'hedge-fondy' },
-            { label: 'ETF fondy', value: 'etf-fondy' },
-            { label: 'Virtuální měny', value: 'virtualni-meny' },
-            { label: 'Residenční nemovitosti', value: 'rezidencni-nemovitosti' },
-            { label: 'Nástroje peněžního trhu', value: 'nastroje-penezniho-trhu' },
-            { label: 'Pohledávky', value: 'pohledavky' },
-            { label: 'Krátkodobé investice', value: 'kratkodobe-investice' },
-            { label: 'Finanční služby', value: 'financni-sluzby' },
-            { label: 'Smlouva o úvěru.', value: 'smlouva-o-uveru' },
-          ],
+          type: 'relationship',
+          relationTo: 'sectors',
           label: {
             cs: 'Sektor',
             en: 'Sector',
@@ -301,7 +267,7 @@ export const Investments: CollectionConfig = {
   timestamps: true,
   hooks: {
     afterChange: [
-      async ({ doc, operation, req }) => {
+      async ({ doc, operation }) => {
         if (operation === 'create' || operation === 'update') {
           await revalidateFrontend({ collection: 'investmentCompanies', id: doc.id })
         }

@@ -61,6 +61,7 @@ const Navbar = async ({ user }: NavbarProps) => {
             </div>
           )} */}
           <Link href="/admin/collections/investments">Investice</Link>
+          <Link href="/admin/collections/sectors">Sektory</Link>
           {/* <Link href="/admin/collections/documents">Dokumenty</Link> */}
           {/* <Link href="/admin/collections/media">Média</Link> */}
           {/* {rolesAccess && <Link href="/admin/migrate-page">Migrace dat</Link>} */}

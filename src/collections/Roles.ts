@@ -84,6 +84,17 @@ export const Roles: CollectionConfig = {
           ],
         },
         {
+          name: 'sectors',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Create', value: 'create' },
+            { label: 'Read', value: 'read' },
+            { label: 'Update', value: 'update' },
+            { label: 'Delete', value: 'delete' },
+          ],
+        },
+        {
           name: 'documents',
           type: 'select',
           hasMany: true,

@@ -1,4 +1,4 @@
-import { authenticatedAdmin, isAdminFieldLevel } from '@/access/authenticatedAdmin'
+import { isAdminFieldLevel, isSuperAdminFieldLevel } from '@/access/authenticatedAdmin'
 import { authenticatedAdminOrSelf } from '@/access/authenticatedAdminOrSelf'
 import type { CollectionConfig } from 'payload'
 
@@ -16,8 +16,8 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: authenticatedAdminOrSelf,
-    create: authenticatedAdmin,
-    delete: authenticatedAdmin,
+    create: isSuperAdminFieldLevel,
+    delete: isSuperAdminFieldLevel,
     update: authenticatedAdminOrSelf,
   },
   admin: {
