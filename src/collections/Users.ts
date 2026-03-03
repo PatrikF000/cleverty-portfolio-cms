@@ -16,8 +16,8 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: authenticatedAdminOrSelf,
-    create: authenticatedAdminOrSelf,
-    delete: authenticatedAdminOrSelf,
+    create: isSuperAdminFieldLevel,
+    delete: isSuperAdminFieldLevel,
     update: authenticatedAdminOrSelf,
   },
   admin: {
