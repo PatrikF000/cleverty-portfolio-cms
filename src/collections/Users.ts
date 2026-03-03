@@ -1,4 +1,4 @@
-import { isAdminFieldLevel, isSuperAdminFieldLevel } from '@/access/authenticatedAdmin'
+import { isSuperAdminFieldLevel } from '@/access/authenticatedAdmin'
 import { authenticatedAdminOrSelf } from '@/access/authenticatedAdminOrSelf'
 import type { CollectionConfig } from 'payload'
 
@@ -41,8 +41,8 @@ export const Users: CollectionConfig = {
       hasMany: false,
       required: true,
       access: {
-        create: isAdminFieldLevel,
-        update: isAdminFieldLevel,
+        create: isSuperAdminFieldLevel,
+        update: isSuperAdminFieldLevel,
       },
     },
     // {
